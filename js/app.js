@@ -1,16 +1,8 @@
 /*
  * Create a list that holds all of your cards
  */
+ let opened = [];
 
-var cardSymbol = ['anchor', 'anchor',
-                'bolt', 'bolt'
-                // 'bicycle', 'bicycle'
-                // 'bomb', 'bomb',
-                // 'cube', 'cube',
-                // 'diamond', 'diamond',
-                // 'leaf', 'leaf',
-                // 'paper-plane-o', 'paper-plane-o'
-                ];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -18,19 +10,8 @@ var cardSymbol = ['anchor', 'anchor',
  *   - add each card's HTML to the page
  */
 
- // Create container for array loop
- let cardList = [];
-
- // Shuffle cardSymbol array
- shuffle(cardSymbol);
-
-// Create <li> by looping through class name in the array
- for (let i = 0; i < cardSymbol.length; i++) {
-     cardList += `<li class="card"><i class="fa fa-${cardSymbol[i]}"></i></li>`;
- }
-
 // Display html to the page
-document.querySelector('.deck').innerHTML = cardList;
+const allCards = document.querySelectorAll('.deck li');
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -59,40 +40,28 @@ function shuffle(array) {
  */
 
 // Grab all <li> elements
-const allCard = document.querySelectorAll('.card');
-
-// Create empty container of card list
-let openCards = [];
 
 // set up the event listener for a card. If a card is clicked:
-allCard.forEach(function(card) {
-    card.addEventListener('click', function(event) {
+allCards.addEventListener('click', function(event) {
 
-        const clicked = event.target;
-        console.log(clicked);
+    const clickedCard = event.target;
 
-        // Add the card to a *list* of "open" cards
-        openCards.push(card);
+    // Add the card to a *list* of "open" cards
+    opened.push(card);
 
-        // Display the card's symbol.
-        if(openCards.length <= 2) {
-            card.classList.add('open', 'show');
-
-        } else {
-            //TODO: don't do openCards.push(card); openCards.length remains the same
-            return;
-        }
-
+    // Display the card's symbol.
+    if(opened.length <= 2) {
+        card.classList.add('open', 'show');
         // - if the list already has another card, check to see if the two cards match
         checkMatch();
-    })
+    }
 });
 
 function checkMatch() {
 
-    if(openCards.length == 2) {
+    if(toggled.length == 2) {
 
-        if (cardSymbol[0] === cardSymbol[1]) {
+        if (toggled[0] === toggled[1]) {
 
             alert('MATCH');
             console.log(clicked);
@@ -105,7 +74,7 @@ function checkMatch() {
             // TODO: lock the cards in 'open' 'show' class
             // TODO: Add 'match' class
 
-        } else if (cardSymbol[0] !== cardSymbol[1]) {
+        } else if (toggled[0] !== toggled[1]) {
 
 
             /*    + if the cards do not match, remove the cards from the list and hide the card's symbol
